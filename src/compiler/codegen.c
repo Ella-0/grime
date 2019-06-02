@@ -12,6 +12,8 @@ LLVMBasicBlockRef codegenBlk(LLVMValueRef func, LLVMBuilderRef builder, const ch
 LLVMValueRef codegenRet(LLVMBuilderRef builder, struct Node ast);
 LLVMValueRef codegenExpr(LLVMBuilderRef builder, struct Node ast);
 LLVMValueRef codegenInt(LLVMBuilderRef builder, struct Node ast);
+LLVMValueRef codegenAdd(LLVMBuilderRef builder, struct Node ast);
+
 
 int stoi(const char *str) {
   size_t len = strlen(str);
@@ -71,9 +73,18 @@ LLVMValueRef codegenExpr(LLVMBuilderRef builder, struct Node ast) {
       return codegenRet(builder, ast.children[0]);
     case NINTEXPR:
       return codegenInt(builder, ast.children[0]);
+    case NADDEXPR:
+      return codegenAdd(builder, ast.children[0]);
     default:
       printf("Unexpected node when generating expression!\n");
+      exit(-1);
   }
+}
+
+LLVMValueRef codegenAdd(LLVMBuilderRef builder, struct Node ast) {
+  LLVMValueRef rhs = codegenExpr(builder, ast);
+  LLVMValueRef lhs = codegenExpr(builder, ast.children[1]);
+  return LLVMBuildAdd(builder, rhs, lhs, "tmp");
 }
 
 LLVMValueRef codegenRet(LLVMBuilderRef builder, struct Node ast) {

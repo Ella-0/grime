@@ -137,7 +137,7 @@ struct Node parseExpr(struct Token **src) {
   out.type = NEXPR;
   out.childCount = 1;
   out.children = (struct Node *) malloc(sizeof(struct Node));
-  out.children[0] = parseRootExpr(src);
+  out.children[0] = parseAddExpr(src);
   return out;
 }
 
@@ -180,6 +180,7 @@ struct Node parseAddExpr(struct Token **src) {
     out.children[1] = parseExpr(src);
     return out;
   } else {
+    printf("%s\n", (*src+1)->data);
     return parseRootExpr(src);
   }
 }
