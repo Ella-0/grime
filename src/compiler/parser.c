@@ -10,6 +10,7 @@ struct Node parseType(struct Token **src);
 struct Node parseId(struct Token **src);
 struct Node parseBlk(struct Token **src);
 struct Node parseExpr(struct Token **src);
+struct Node parseRootExpr(struct Token **src);
 struct Node parseRetExpr(struct Token **src);
 struct Node parseIntExpr(struct Token **src);
 struct Node parseAddExpr(struct Token **src);
@@ -136,14 +137,16 @@ struct Node parseExpr(struct Token **src) {
   out.type = NEXPR;
   out.childCount = 1;
   out.children = (struct Node *) malloc(sizeof(struct Node));
-  if (!strcmp((*src)->data, "return")) {
-    out.children[0] = parseRetExpr(src);
-  } else if (regexec(&I32REG, (*src)->data, 0, NULL, 0)) {
-    out.children[0] = parseIntExpr(src);
-  } else {
-    out.children[0] = parseAddExpr(src);
-  }
+  out.children[0] = parseRootExpr(src);
   return out;
+}
+
+struct Node parseRootExpr(struct Token **src) {
+  if (!strcmp((*src)->data, "return")) {
+    return parseRetExpr(src);
+  } else if (regexec(&I32REG, (*src)->data, 0, NULL, 0)) {
+    return parseIntExpr(src);
+  }
 }
 
 struct Node parseIntExpr(struct Token **src) {
@@ -167,9 +170,16 @@ struct Node parseRetExpr(struct Token **src) {
 }
 
 struct Node parseAddExpr(struct Token **src) {
-  struct Node out;
-  out.type = NADDEXPR;
-  out.childCount = 2;
-  out.children = (struct Node *) malloc(out.childCount * sizeof(struct Node));
-  return out;
+  if (!strcmp((*src+1)->data, "+")) {
+    struct Node out;
+    out.type = NADDEXPR;
+    out.childCount = 2;
+    out.children = (struct Node *) malloc(out.childCount * sizeof(struct Node));
+    out.children[0] = parseRootExpr(src);
+    (*src)++; //+
+    out.children[1] = parseExpr(src);
+    return out;
+  } else {
+    return parseRootExpr(src);
+  }
 }
