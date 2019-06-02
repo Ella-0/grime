@@ -32,4 +32,4 @@ make
 
 ### install
 
-`make install`
+`sudo make install`
