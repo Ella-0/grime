@@ -11,7 +11,12 @@ enum NodeType {
   NINTEXPR,
   NADDEXPR,
   NMULEXPR,
-  NSUBEXPR
+  NSUBEXPR,
+  NDIVEXPR,
+  NGRTEXPR,
+  NLSTEXPR,
+  NGTEEXPR,
+  NLTEEXPR
 };
 
 struct Node {

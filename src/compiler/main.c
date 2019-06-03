@@ -55,6 +55,15 @@ void printTree(struct Node ast, int t) {
 
     case NMULEXPR:
     printf("NMULEXPR\n");
+    break;
+
+    case NSUBEXPR:
+    printf("NSUBEXPR\n");
+    break;
+
+    case NDIVEXPR:
+    printf("NDIVEXPR\n");
+    break;
   }
   for (int i = 0; i < ast.childCount; i++) {
     printTree(ast.children[i], t+1);
@@ -64,8 +73,8 @@ void printTree(struct Node ast, int t) {
 int main(int argc, char const *argv[]) {
   printf("# Grime Compiler\n");
   struct Token *tokens = lex(
-    "func main(a: Int) -> Int {\n"
-    "\treturn 1 + 1 * 2 - 1\n"
+    "func main(a: Int) -> Bool {\n"
+    "\treturn 2 >= 2\n"
     "}"
   );
   struct Node ast = parse(tokens);
