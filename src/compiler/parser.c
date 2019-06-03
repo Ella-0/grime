@@ -146,7 +146,7 @@ struct Node parseExpr(struct Token **src) {
 struct Node parseRootExpr(struct Token **src) {
   if (!strcmp((*src)->data, "return")) {
     return parseRetExpr(src);
-  } else if (regexec(&I32REG, (*src)->data, 0, NULL, 0)) {
+  } else if (!regexec(&I32REG, (*src)->data, 0, NULL, 0)) {
     return parseIntExpr(src);
   }
 }
@@ -226,7 +226,7 @@ struct Node parseGRTExpr(struct Token **src) {
     out.childCount = 2;
     out.children = (struct Node *) malloc(out.childCount * sizeof(struct Node));
     out.children[0] = parseAddExpr(src);
-    (*src)++; //+
+    (*src)++; //>
     out.children[1] = parseExpr(src);
     return out;
   } else if (!strcmp((*src+1)->data, "<")) {
@@ -235,7 +235,7 @@ struct Node parseGRTExpr(struct Token **src) {
     out.childCount = 2;
     out.children = (struct Node *) malloc(out.childCount * sizeof(struct Node));
     out.children[0] = parseAddExpr(src);
-    (*src)++; //-
+    (*src)++; //<
     out.children[1] = parseExpr(src);
     return out;
   } else if (!strcmp((*src+1)->data, ">=")) {
@@ -244,7 +244,7 @@ struct Node parseGRTExpr(struct Token **src) {
     out.childCount = 2;
     out.children = (struct Node *) malloc(out.childCount * sizeof(struct Node));
     out.children[0] = parseAddExpr(src);
-    (*src)++; //-
+    (*src)++; //>=
     out.children[1] = parseExpr(src);
     return out;
   } else if (!strcmp((*src+1)->data, "<=")) {
@@ -253,7 +253,7 @@ struct Node parseGRTExpr(struct Token **src) {
     out.childCount = 2;
     out.children = (struct Node *) malloc(out.childCount * sizeof(struct Node));
     out.children[0] = parseAddExpr(src);
-    (*src)++; //-
+    (*src)++; //<=
     out.children[1] = parseExpr(src);
     return out;
   } else {
