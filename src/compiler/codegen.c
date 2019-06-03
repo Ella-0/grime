@@ -13,7 +13,8 @@ LLVMValueRef codegenRet(LLVMBuilderRef builder, struct Node ast);
 LLVMValueRef codegenExpr(LLVMBuilderRef builder, struct Node ast);
 LLVMValueRef codegenInt(LLVMBuilderRef builder, struct Node ast);
 LLVMValueRef codegenAdd(LLVMBuilderRef builder, struct Node ast);
-
+LLVMValueRef codegenSub(LLVMBuilderRef builder, struct Node ast);
+LLVMValueRef codegenMul(LLVMBuilderRef builder, struct Node ast);
 
 int stoi(const char *str) {
   size_t len = strlen(str);
@@ -75,6 +76,10 @@ LLVMValueRef codegenExpr(LLVMBuilderRef builder, struct Node ast) {
       return codegenInt(builder, ast.children[0]);
     case NADDEXPR:
       return codegenAdd(builder, ast.children[0]);
+    case NMULEXPR:
+      return codegenMul(builder, ast.children[0]);
+    case NSUBEXPR:
+      return codegenSub(builder, ast.children[0]);
     default:
       printf("Unexpected node when generating expression!\n");
       exit(-1);
@@ -85,6 +90,18 @@ LLVMValueRef codegenAdd(LLVMBuilderRef builder, struct Node ast) {
   LLVMValueRef rhs = codegenExpr(builder, ast);
   LLVMValueRef lhs = codegenExpr(builder, ast.children[1]);
   return LLVMBuildAdd(builder, rhs, lhs, "tmp");
+}
+
+LLVMValueRef codegenSub(LLVMBuilderRef builder, struct Node ast) {
+  LLVMValueRef rhs = codegenExpr(builder, ast);
+  LLVMValueRef lhs = codegenExpr(builder, ast.children[1]);
+  return LLVMBuildSub(builder, rhs, lhs, "tmp");
+}
+
+LLVMValueRef codegenMul(LLVMBuilderRef builder, struct Node ast) {
+  LLVMValueRef rhs = codegenExpr(builder, ast);
+  LLVMValueRef lhs = codegenExpr(builder, ast.children[1]);
+  return LLVMBuildMul(builder, rhs, lhs, "tmp");
 }
 
 LLVMValueRef codegenRet(LLVMBuilderRef builder, struct Node ast) {

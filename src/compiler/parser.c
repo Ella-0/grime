@@ -14,6 +14,7 @@ struct Node parseRootExpr(struct Token **src);
 struct Node parseRetExpr(struct Token **src);
 struct Node parseIntExpr(struct Token **src);
 struct Node parseAddExpr(struct Token **src);
+struct Node parseMulExpr(struct Token **src);
 
 struct Node *appendNode(struct Node *nodes, int *childCount, struct Node node) {
   struct Node *out = (struct Node *)malloc((*childCount + 1) * sizeof(struct Node));
@@ -169,18 +170,43 @@ struct Node parseRetExpr(struct Token **src) {
   return out;
 }
 
+struct Node parseMulExpr(struct Token **src) {
+  if (!strcmp((*src+1)->data, "*")) {
+    struct Node out;
+    out.type = NMULEXPR;
+    out.childCount = 2;
+    out.children = (struct Node *) malloc(out.childCount * sizeof(struct Node));
+    out.children[0] = parseRootExpr(src);
+    (*src)++; //*
+    out.children[1] = parseExpr(src);
+    return out;
+  } else {
+    printf("%s\n", (*src+1)->data);
+    return parseRootExpr(src);
+  }
+}
+
 struct Node parseAddExpr(struct Token **src) {
   if (!strcmp((*src+1)->data, "+")) {
     struct Node out;
     out.type = NADDEXPR;
     out.childCount = 2;
     out.children = (struct Node *) malloc(out.childCount * sizeof(struct Node));
-    out.children[0] = parseRootExpr(src);
+    out.children[0] = parseMulExpr(src);
     (*src)++; //+
+    out.children[1] = parseExpr(src);
+    return out;
+  } else if (!strcmp((*src+1)->data, "-")) {
+    struct Node out;
+    out.type = NSUBEXPR;
+    out.childCount = 2;
+    out.children = (struct Node *) malloc(out.childCount * sizeof(struct Node));
+    out.children[0] = parseMulExpr(src);
+    (*src)++; //-
     out.children[1] = parseExpr(src);
     return out;
   } else {
     printf("%s\n", (*src+1)->data);
-    return parseRootExpr(src);
+    return parseMulExpr(src);
   }
 }

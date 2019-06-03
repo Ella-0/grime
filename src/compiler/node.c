@@ -9,7 +9,9 @@ enum NodeType {
   NEXPR,
   NRETEXPR,
   NINTEXPR,
-  NADDEXPR
+  NADDEXPR,
+  NMULEXPR,
+  NSUBEXPR
 };
 
 struct Node {
