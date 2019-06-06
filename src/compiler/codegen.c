@@ -30,7 +30,6 @@ int stoi(const char *str) {
     n = (int)(str[i-1] - '0');
     if (n > 9 | n < 0) {
       printf("failed to get int from string: %s\n", str);
-      printf("%d\n", n);
       exit(-1);
     }
     a += o * n;

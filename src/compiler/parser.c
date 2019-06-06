@@ -1,5 +1,5 @@
 #include "node.c"
-#include "regex.h"
+#include "match.c"
 
 struct Node parse(struct Token *src);
 struct Node parseTLD(struct Token **src);
@@ -28,18 +28,7 @@ struct Node *appendNode(struct Node *nodes, int *childCount, struct Node node) {
   return out;
 }
 
-regex_t I32REG;
-
-void initRegex() {
-  int reti = regcomp(&I32REG, "[0-9]+", 0);
-  if (reti) {
-    printf("could not compile regex\n");
-    exit(-1);
-  }
-}
-
 struct Node parse(struct Token *src) {
-  initRegex();
   return parseTLD(&src);
 }
 
@@ -146,8 +135,16 @@ struct Node parseExpr(struct Token **src) {
 struct Node parseRootExpr(struct Token **src) {
   if (!strcmp((*src)->data, "return")) {
     return parseRetExpr(src);
-  } else if (!regexec(&I32REG, (*src)->data, 0, NULL, 0)) {
+  } else if (!strcmp((*src)->data, "(")) {
+    (*src)++;//(
+    struct Node out = parseExpr(src);
+    (*src)++;//)
+    return parseExpr(src);
+  } else if (isInteger(**src)) {
     return parseIntExpr(src);
+  } else {
+    printf("unrecognised token when parsing root expression [%s]\n", (*src)->data);
+    exit(-1);
   }
 }
 

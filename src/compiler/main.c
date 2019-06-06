@@ -73,8 +73,8 @@ void printTree(struct Node ast, int t) {
 int main(int argc, char const *argv[]) {
   printf("# Grime Compiler\n");
   struct Token *tokens = lex(
-    "func main(a: Int) -> Bool {\n"
-    "\treturn 2 >= 2\n"
+    "func main(a: Int) -> Int {\n"
+    "\treturn 2 + 2\n"
     "}"
   );
   struct Node ast = parse(tokens);
