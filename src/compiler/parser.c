@@ -18,7 +18,7 @@ struct Node parseMulExpr(struct Token **src);
 struct Node parseGRTExpr(struct Token **src);
 
 struct Node *appendNode(struct Node *nodes, int *childCount, struct Node node) {
-  struct Node *out = (struct Node *)malloc((*childCount + 1) * sizeof(struct Node));
+  struct Node *out = (struct Node *) malloc((*childCount + 1) * sizeof(struct Node));
   if (nodes != NULL) {
     memcpy(out, nodes, *childCount * sizeof(struct Node));
     free(nodes);
@@ -89,7 +89,7 @@ struct Node parseArg(struct Token **src) {
   struct Node idNode = parseId(src);
   (*src)++; //:
   struct Node typeNode = parseType(src);
-  out.children = (struct Node *)malloc(out.childCount * sizeof(struct Node));
+  out.children = (struct Node *) malloc(out.childCount * sizeof(struct Node));
   out.children[0] = idNode;
   out.children[1] = typeNode;
   return out;
