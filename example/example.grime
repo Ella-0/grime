@@ -3,7 +3,7 @@ import file
 
 func main(argc: Int, argv: [String]) -> Int {
   println("HelloWorld")
-  if (arc < 1) {
+  if (argc < 1) {
     println("Error... no program arguments")
     return -1
   }
