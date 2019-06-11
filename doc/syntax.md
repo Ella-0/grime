@@ -46,6 +46,15 @@ func main(argc: Int, argv: [String]) -> Int {
 `(x: T, y: U, z: V ... )` - a tuple with types and their references listed in the parenthesis  
 `(T, U, V ... ) -> Z` - a function pointer  
 
+#### Strings
+
+`[Char]` - defines a string  
+`String` - defines a string  
+
+##### How the `String` type is defined
+
+`type String : [Char]`
+
 ### Defining new Types
 
 You can define types using type definitions. these are declared using the following syntax.
