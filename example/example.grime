@@ -1,0 +1,18 @@
+import print.* 
+import file
+
+func main(argc: Int, argv: [[Char]]) {
+  println("HelloWorld")
+  if (arc < 1) {
+    println("Error... no program arguments")
+    return -1
+  }
+  val f: File = file.open()
+  val bytes: [Byte] =  file.read()
+  val lines: [String] = f.readLines()
+  val chars: [Char] = f.readText()
+  for (line: String in lines) {
+    println(line)
+  }
+  return 0
+}
