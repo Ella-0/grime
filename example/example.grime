@@ -1,7 +1,7 @@
 import print.* 
 import file
 
-func main(argc: Int, argv: [String]) {
+func main(argc: Int, argv: [String]) -> Int {
   println("HelloWorld")
   if (arc < 1) {
     println("Error... no program arguments")
