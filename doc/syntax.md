@@ -1,3 +1,11 @@
+# Grime Hello World
+```
+func main(argc: Int, argv: [String]) -> Int {
+	println("HelloWorld!")
+	return 0
+}
+```
+
 # Grime Syntax
 
 ## Types
