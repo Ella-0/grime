@@ -1,0 +1,16 @@
+type Vector2f: [Float; 2]
+type Vector3f: [Float; 3]
+type Vector4f: [Float; 4]
+
+type Matrix2f: [[Float; 2]; 2]
+type Matrix3f: [[Float; 3]; 3]
+type Matrix4f: [[Float; 4]; 4]
+
+type Matrix2x3: [[Float; 3]; 2]
+type Matrix3x2: [[Float; 2]; 3]
+
+type Matrix2x4: [[Float; 4]; 2]
+type Matrix4x2: [[Float; 2]; 4]
+
+type Matrix3x4: [[Float; 4]; 3]
+type Matrix4x3: [[Float; 3]; 4]
