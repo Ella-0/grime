@@ -1,0 +1,5 @@
+# Grime Coding Standards
+
+## Types
+
+### 

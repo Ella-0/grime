@@ -146,8 +146,9 @@ union YYSTYPE
 
   struct Node node;
   int token;
+  char *string;
 
-#line 151 "parser.tab.c" /* yacc.c:352  */
+#line 152 "parser.tab.c" /* yacc.c:352  */
 };
 
 typedef union YYSTYPE YYSTYPE;
@@ -453,9 +454,9 @@ static const yytype_uint8 yytranslate[] =
   /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_uint8 yyrline[] =
 {
-       0,    29,    29,    32,    35,    38,    41,    42,    45,    48,
-      51,    54,    55,    58,    61,    62,    65,    68,    71,    73,
-      76,    77,    78,    81,    82,    83,    84,    85,    86
+       0,    31,    31,    34,    37,    40,    43,    44,    47,    50,
+      53,    56,    57,    60,    63,    64,    67,    70,    73,    75,
+      78,    79,    80,    83,    84,    85,    86,    87,    88
 };
 #endif
 
@@ -1273,169 +1274,169 @@ yyreduce:
   switch (yyn)
     {
         case 2:
-#line 29 "parser.y" /* yacc.c:1652  */
-    {(yyval.node) = createNode("NIDENTIFIER", 0, NULL);}
-#line 1279 "parser.tab.c" /* yacc.c:1652  */
+#line 31 "parser.y" /* yacc.c:1652  */
+    {(yyval.node) = createNode((yyvsp[0].string), 0, NULL);}
+#line 1280 "parser.tab.c" /* yacc.c:1652  */
     break;
 
   case 3:
-#line 32 "parser.y" /* yacc.c:1652  */
+#line 34 "parser.y" /* yacc.c:1652  */
     {tld = createNode("NTLD", 1, (struct Node []) {(yyvsp[0].node)});}
-#line 1285 "parser.tab.c" /* yacc.c:1652  */
+#line 1286 "parser.tab.c" /* yacc.c:1652  */
     break;
 
   case 4:
-#line 35 "parser.y" /* yacc.c:1652  */
+#line 37 "parser.y" /* yacc.c:1652  */
     {(yyval.node) = createNode("NFUNCTIONS", 1, (struct Node []) {(yyvsp[0].node)});}
-#line 1291 "parser.tab.c" /* yacc.c:1652  */
+#line 1292 "parser.tab.c" /* yacc.c:1652  */
     break;
 
   case 5:
-#line 38 "parser.y" /* yacc.c:1652  */
+#line 40 "parser.y" /* yacc.c:1652  */
     {(yyval.node) = createNode("NFUNCTION", 4, (struct Node []) {(yyvsp[-6].node), (yyvsp[-4].node), (yyvsp[-1].node), (yyvsp[0].node)});}
-#line 1297 "parser.tab.c" /* yacc.c:1652  */
+#line 1298 "parser.tab.c" /* yacc.c:1652  */
     break;
 
   case 6:
-#line 41 "parser.y" /* yacc.c:1652  */
+#line 43 "parser.y" /* yacc.c:1652  */
     {(yyval.node) = createNode("NPARAMS", 2, (struct Node []) {(yyvsp[-2].node), (yyvsp[0].node)});}
-#line 1303 "parser.tab.c" /* yacc.c:1652  */
+#line 1304 "parser.tab.c" /* yacc.c:1652  */
     break;
 
   case 7:
-#line 42 "parser.y" /* yacc.c:1652  */
+#line 44 "parser.y" /* yacc.c:1652  */
     {(yyval.node) = createNode("NPARAMS", 1, (struct Node []) {(yyvsp[0].node)});}
-#line 1309 "parser.tab.c" /* yacc.c:1652  */
+#line 1310 "parser.tab.c" /* yacc.c:1652  */
     break;
 
   case 8:
-#line 45 "parser.y" /* yacc.c:1652  */
+#line 47 "parser.y" /* yacc.c:1652  */
     {(yyval.node) = createNode("NPARAM", 2, (struct Node []) {(yyvsp[-2].node), (yyvsp[0].node)});}
-#line 1315 "parser.tab.c" /* yacc.c:1652  */
+#line 1316 "parser.tab.c" /* yacc.c:1652  */
     break;
 
   case 9:
-#line 48 "parser.y" /* yacc.c:1652  */
+#line 50 "parser.y" /* yacc.c:1652  */
     {(yyval.node) = createNode("NARRAYTYPE", 1, (struct Node []) {(yyvsp[-1].node)});}
-#line 1321 "parser.tab.c" /* yacc.c:1652  */
+#line 1322 "parser.tab.c" /* yacc.c:1652  */
     break;
 
   case 10:
-#line 51 "parser.y" /* yacc.c:1652  */
+#line 53 "parser.y" /* yacc.c:1652  */
     {(yyval.node) = createNode("NSIMPLETYPE", 1, (struct Node []) {(yyvsp[0].node)});}
-#line 1327 "parser.tab.c" /* yacc.c:1652  */
+#line 1328 "parser.tab.c" /* yacc.c:1652  */
     break;
 
   case 11:
-#line 54 "parser.y" /* yacc.c:1652  */
+#line 56 "parser.y" /* yacc.c:1652  */
     {(yyval.node) = createNode("NTYPE", 1, (struct Node []) {(yyvsp[0].node)});}
-#line 1333 "parser.tab.c" /* yacc.c:1652  */
+#line 1334 "parser.tab.c" /* yacc.c:1652  */
     break;
 
   case 12:
-#line 55 "parser.y" /* yacc.c:1652  */
+#line 57 "parser.y" /* yacc.c:1652  */
     {(yyval.node) = createNode("NTYPE", 1, (struct Node []) {(yyvsp[0].node)});}
-#line 1339 "parser.tab.c" /* yacc.c:1652  */
+#line 1340 "parser.tab.c" /* yacc.c:1652  */
     break;
 
   case 13:
-#line 58 "parser.y" /* yacc.c:1652  */
+#line 60 "parser.y" /* yacc.c:1652  */
     {(yyval.node) = createNode("NBLK", 1, (struct Node []) {(yyvsp[-1].node)});}
-#line 1345 "parser.tab.c" /* yacc.c:1652  */
+#line 1346 "parser.tab.c" /* yacc.c:1652  */
     break;
 
   case 14:
-#line 61 "parser.y" /* yacc.c:1652  */
+#line 63 "parser.y" /* yacc.c:1652  */
     {(yyval.node) = createNode("NBLKPARTS", 2, (struct Node []) {(yyvsp[-1].node), (yyvsp[0].node)});}
-#line 1351 "parser.tab.c" /* yacc.c:1652  */
+#line 1352 "parser.tab.c" /* yacc.c:1652  */
     break;
 
   case 15:
-#line 62 "parser.y" /* yacc.c:1652  */
+#line 64 "parser.y" /* yacc.c:1652  */
     {(yyval.node) = createNode("BLKPARTS", 0, NULL);}
-#line 1357 "parser.tab.c" /* yacc.c:1652  */
+#line 1358 "parser.tab.c" /* yacc.c:1652  */
     break;
 
   case 16:
-#line 65 "parser.y" /* yacc.c:1652  */
+#line 67 "parser.y" /* yacc.c:1652  */
     {(yyval.node) = createNode("NIFEXPR", 2, (struct Node []) {(yyvsp[-2].node), (yyvsp[0].node)});}
-#line 1363 "parser.tab.c" /* yacc.c:1652  */
+#line 1364 "parser.tab.c" /* yacc.c:1652  */
     break;
 
   case 17:
-#line 68 "parser.y" /* yacc.c:1652  */
+#line 70 "parser.y" /* yacc.c:1652  */
     {(yyval.node) = createNode("NWHILEEXPR", 2, (struct Node []) {(yyvsp[-2].node), (yyvsp[0].node)});}
-#line 1369 "parser.tab.c" /* yacc.c:1652  */
+#line 1370 "parser.tab.c" /* yacc.c:1652  */
     break;
 
   case 18:
-#line 71 "parser.y" /* yacc.c:1652  */
+#line 73 "parser.y" /* yacc.c:1652  */
     {(yyval.node) = createNode("NVAREXPR", 3, (struct Node []) {(yyvsp[-4].node), (yyvsp[-2].node), (yyvsp[0].node)});}
-#line 1375 "parser.tab.c" /* yacc.c:1652  */
+#line 1376 "parser.tab.c" /* yacc.c:1652  */
     break;
 
   case 19:
-#line 73 "parser.y" /* yacc.c:1652  */
+#line 75 "parser.y" /* yacc.c:1652  */
     {(yyval.node) = createNode("NVALEXPR", 2, (struct Node []) {(yyvsp[-4].node), (yyvsp[-2].node), (yyvsp[0].node)});}
-#line 1381 "parser.tab.c" /* yacc.c:1652  */
+#line 1382 "parser.tab.c" /* yacc.c:1652  */
     break;
 
   case 20:
-#line 76 "parser.y" /* yacc.c:1652  */
+#line 78 "parser.y" /* yacc.c:1652  */
     {(yyval.node) = createNode("NINTEGER", 0, NULL);}
-#line 1387 "parser.tab.c" /* yacc.c:1652  */
+#line 1388 "parser.tab.c" /* yacc.c:1652  */
     break;
 
   case 21:
-#line 77 "parser.y" /* yacc.c:1652  */
+#line 79 "parser.y" /* yacc.c:1652  */
     {(yyval.node) = createNode("NADDEXPR", 2, (struct Node []) {(yyvsp[-2].node), (yyvsp[0].node)});}
-#line 1393 "parser.tab.c" /* yacc.c:1652  */
+#line 1394 "parser.tab.c" /* yacc.c:1652  */
     break;
 
   case 22:
-#line 78 "parser.y" /* yacc.c:1652  */
+#line 80 "parser.y" /* yacc.c:1652  */
     {(yyval.node) = createNode("NMULEXPR", 2, (struct Node []) {(yyvsp[-2].node), (yyvsp[0].node)});}
-#line 1399 "parser.tab.c" /* yacc.c:1652  */
+#line 1400 "parser.tab.c" /* yacc.c:1652  */
     break;
 
   case 23:
-#line 81 "parser.y" /* yacc.c:1652  */
+#line 83 "parser.y" /* yacc.c:1652  */
     {(yyval.node) = createNode("NEXPR", 1, (struct Node []) {(yyvsp[0].node)});}
-#line 1405 "parser.tab.c" /* yacc.c:1652  */
+#line 1406 "parser.tab.c" /* yacc.c:1652  */
     break;
 
   case 24:
-#line 82 "parser.y" /* yacc.c:1652  */
+#line 84 "parser.y" /* yacc.c:1652  */
     {(yyval.node) = createNode("NEXPR", 1, (struct Node []) {(yyvsp[0].node)});}
-#line 1411 "parser.tab.c" /* yacc.c:1652  */
+#line 1412 "parser.tab.c" /* yacc.c:1652  */
     break;
 
   case 25:
-#line 83 "parser.y" /* yacc.c:1652  */
+#line 85 "parser.y" /* yacc.c:1652  */
     {(yyval.node) = createNode("NEXPR", 0, NULL);}
-#line 1417 "parser.tab.c" /* yacc.c:1652  */
+#line 1418 "parser.tab.c" /* yacc.c:1652  */
     break;
 
   case 26:
-#line 84 "parser.y" /* yacc.c:1652  */
+#line 86 "parser.y" /* yacc.c:1652  */
     {(yyval.node) = createNode("NEXPR", 0, NULL);}
-#line 1423 "parser.tab.c" /* yacc.c:1652  */
+#line 1424 "parser.tab.c" /* yacc.c:1652  */
     break;
 
   case 27:
-#line 85 "parser.y" /* yacc.c:1652  */
+#line 87 "parser.y" /* yacc.c:1652  */
     {(yyval.node) = createNode("NEXPR", 0, NULL);}
-#line 1429 "parser.tab.c" /* yacc.c:1652  */
+#line 1430 "parser.tab.c" /* yacc.c:1652  */
     break;
 
   case 28:
-#line 86 "parser.y" /* yacc.c:1652  */
+#line 88 "parser.y" /* yacc.c:1652  */
     {(yyval.node) = createNode("NEXPR", 1, (struct Node []) {(yyvsp[0].node)});}
-#line 1435 "parser.tab.c" /* yacc.c:1652  */
+#line 1436 "parser.tab.c" /* yacc.c:1652  */
     break;
 
 
-#line 1439 "parser.tab.c" /* yacc.c:1652  */
+#line 1440 "parser.tab.c" /* yacc.c:1652  */
       default: break;
     }
   /* User semantic actions sometimes alter yychar, and that requires
@@ -1666,7 +1667,7 @@ yyreturn:
 #endif
   return yyresult;
 }
-#line 88 "parser.y" /* yacc.c:1918  */
+#line 90 "parser.y" /* yacc.c:1918  */
 
 
 void yyerror(char *s) {printf("error : %s\n", s);}

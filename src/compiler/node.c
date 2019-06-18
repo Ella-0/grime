@@ -19,7 +19,7 @@
 //   return out;
 // }
 
-struct Node createNode(const char *data, int childCount, struct Node *node) {
+struct Node createNode(char *data, int childCount, struct Node *node) {
   struct Node *children = (struct Node *) malloc(childCount * sizeof(struct Node));
   for (int i = 0; i < childCount; i++) {
     children[i] = node[i];

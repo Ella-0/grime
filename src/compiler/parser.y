@@ -8,6 +8,7 @@
 %union {
   struct Node node;
   int token;
+  char *string;
 }
 %start tld
 %token END 0
@@ -17,6 +18,7 @@
 %token TARR "->" TCLN ":" TSMI
 %token TCOM ","
 %token TID TINT
+%type <string> TID
 %type <node> identifier functions function params type vardecl valdecl
 %type <node> arraytype simpletype param ifexpr whileexpr expr blk blkparts operatorexpr
 %right "if" "while"
@@ -26,12 +28,12 @@
 %left TINT
 %%
 
-identifier: TID {$$ = createNode("NIDENTIFIER", 0, NULL);}
+identifier: TID {$$ = createNode($1, 0, NULL);}
   ;
 
 tld: functions {tld = createNode("NTLD", 1, (struct Node []) {$1});}
   ;
-  
+
 functions: function {$$ = createNode("NFUNCTIONS", 1, (struct Node []) {$1});}
   ;
 

@@ -84,8 +84,9 @@ union YYSTYPE
 
   struct Node node;
   int token;
+  char *string;
 
-#line 89 "parser.tab.h" /* yacc.c:1921  */
+#line 90 "parser.tab.h" /* yacc.c:1921  */
 };
 
 typedef union YYSTYPE YYSTYPE;

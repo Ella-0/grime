@@ -362,10 +362,10 @@ struct yy_trans_info
 	};
 static const flex_int16_t yy_accept[37] =
     {   0,
-        0,    0,   20,   19,   18,    9,   10,   14,   15,   19,
-       16,   13,   17,   11,   12,   17,   17,   17,   17,    7,
-        8,   16,    6,   17,   17,    4,   17,   17,   17,    3,
-        2,   17,    1,   17,    5,    0
+        0,    0,   20,   19,    1,   10,   11,   15,   16,   19,
+       17,   14,   18,   12,   13,   18,   18,   18,   18,    8,
+        9,   17,    7,   18,   18,    5,   18,   18,   18,    4,
+        3,   18,    2,   18,    6,    0
     } ;
 
 static const YY_CHAR yy_ec[256] =
@@ -746,95 +746,95 @@ do_action:	/* This label is used only to access EOF actions. */
 			goto yy_find_action;
 
 case 1:
+/* rule 1 can match eol */
 YY_RULE_SETUP
 #line 10 "lexer.l"
-{return TFUNC;};
+;
 	YY_BREAK
 case 2:
 YY_RULE_SETUP
 #line 11 "lexer.l"
-{return TVAR;};
+{return TFUNC;};
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
 #line 12 "lexer.l"
-{return TVAL;};
+{return TVAR;};
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
 #line 13 "lexer.l"
-{return TIF;};
+{return TVAL;};
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
 #line 14 "lexer.l"
-{return TWHILE;};
+{return TIF;};
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
 #line 15 "lexer.l"
-{return TARR;};
+{return TWHILE;};
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
 #line 16 "lexer.l"
-{return TLBR;};
+{return TARR;};
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
 #line 17 "lexer.l"
-{return TRBR;};
+{return TLBR;};
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
 #line 18 "lexer.l"
-{return TLPA;};
+{return TRBR;};
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
 #line 19 "lexer.l"
-{return TRPA;};
+{return TLPA;};
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
 #line 20 "lexer.l"
-{return TLBA;};
+{return TRPA;};
 	YY_BREAK
 case 12:
 YY_RULE_SETUP
 #line 21 "lexer.l"
-{return TRBA;};
+{return TLBA;};
 	YY_BREAK
 case 13:
 YY_RULE_SETUP
 #line 22 "lexer.l"
-{return TCLN;};
+{return TRBA;};
 	YY_BREAK
 case 14:
 YY_RULE_SETUP
 #line 23 "lexer.l"
-{return TADD;};
+{return TCLN;};
 	YY_BREAK
 case 15:
 YY_RULE_SETUP
 #line 24 "lexer.l"
-{return TCOM;};
+{return TADD;};
 	YY_BREAK
 case 16:
 YY_RULE_SETUP
 #line 25 "lexer.l"
-{return TINT;};
+{return TCOM;};
 	YY_BREAK
 case 17:
 YY_RULE_SETUP
 #line 26 "lexer.l"
-{return TID;};
+{yylval.string = malloc(yyleng * sizeof(char)); strcpy(yylval.string, yytext); return TINT;};
 	YY_BREAK
 case 18:
-/* rule 18 can match eol */
 YY_RULE_SETUP
 #line 27 "lexer.l"
-;
+{yylval.string = malloc(yyleng * sizeof(char)); strcpy(yylval.string, yytext); return TID;};
 	YY_BREAK
 case 19:
 YY_RULE_SETUP
