@@ -1,85 +1,11 @@
 #include <stdio.h>
-#include <stdlib.h>
-#include "lexer.c"
-#include "parser.c"
-#include "codegen.c"
-
-void printTree(struct Node ast, int t) {
-  for (int n = t; n; n--) {
-    printf(" ");
-  }
-  switch (ast.type) {
-    case NTLD:
-    printf("NTLD\n");
-    break;
-
-    case NFUNC:
-    printf("NFUNC\n");
-    break;
-
-    case NARGS:
-    printf("NARGS\n");
-    break;
-
-    case NARG:
-    printf("NARG\n");
-    break;
-
-    case NID:
-    printf("NID\n");
-    break;
-
-    case NTYPE:
-    printf("NTYPE\n");
-    break;
-
-    case NBLK:
-    printf("NBLK\n");
-    break;
-
-    case NEXPR:
-    printf("NEXPR\n");
-    break;
-
-    case NRETEXPR:
-    printf("NRETEXPR\n");
-    break;
-
-    case NINTEXPR:
-    printf("NINTEXPR\n");
-    break;
-
-    case NADDEXPR:
-    printf("NADDEXPR\n");
-    break;
-
-    case NMULEXPR:
-    printf("NMULEXPR\n");
-    break;
-
-    case NSUBEXPR:
-    printf("NSUBEXPR\n");
-    break;
-
-    case NDIVEXPR:
-    printf("NDIVEXPR\n");
-    break;
-  }
-  for (int i = 0; i < ast.childCount; i++) {
-    printTree(ast.children[i], t+1);
-  }
-}
+#include "node.h"
+#include "parser.tab.h"
+#include "codegenerator.h"
 
 int main(int argc, char const *argv[]) {
-  printf("# Grime Compiler\n");
-  struct Token *tokens = lex(
-    "func main(a: Int) -> Int {\n"
-    "\treturn 2 + 2\n"
-    "}"
-  );
-  struct Node ast = parse(tokens);
-  printTree(ast, 0);
-  codegen(ast);
-  free(tokens);
+  yyparse();
+  printNode(tld);
+  codegen(tld);
   return 0;
 }
