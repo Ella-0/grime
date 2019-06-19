@@ -52,26 +52,34 @@ void pushScope(char *name) {
 
 void pushVar(struct Var var) {
   currentScope[scopeCount - 1].varCount++;
-  currentScope[scopeCount - 1].vars = realloc(currentScope, currentScope[scopeCount - 1].varCount * sizeof(struct Var));
+  currentScope[scopeCount - 1].vars = realloc(currentScope[scopeCount - 1].vars, currentScope[scopeCount - 1].varCount * sizeof(struct Var));
   currentScope[scopeCount - 1].vars[currentScope[scopeCount - 1].varCount - 1] = var;
 }
 
 void pushFunc(struct Func func) {
   currentScope[scopeCount - 1].funcCount++;
-  currentScope[scopeCount - 1].funcs = realloc(currentScope, currentScope[scopeCount - 1].funcCount * sizeof(struct Func));
+  currentScope[scopeCount - 1].funcs = realloc(currentScope[scopeCount - 1].funcs, currentScope[scopeCount - 1].funcCount * sizeof(struct Func));
   currentScope[scopeCount - 1].funcs[currentScope[scopeCount - 1].funcCount - 1] = func;
 }
 
 void pushType(struct Type type) {
   currentScope[scopeCount - 1].typeCount++;
-  currentScope[scopeCount - 1].types = realloc(currentScope, currentScope[scopeCount - 1].typeCount * sizeof(struct Type));
+  currentScope[scopeCount - 1].types = realloc(currentScope[scopeCount - 1].types, currentScope[scopeCount - 1].typeCount * sizeof(struct Type));
   currentScope[scopeCount - 1].types[currentScope[scopeCount - 1].typeCount - 1] = type;
 }
 
-
-
 LLVMTypeRef codegenType() {
   return LLVMIntType(32);
+}
+
+LLVMValueRef codegenBlk(LLVMBuilderRef builder, struct Node tree) {
+
+}
+
+LLVMValueRef codegenExpr(LLVMBuilderRef builder, struct Node tree) {
+  if (!strcmp(tree.children[0].data, "NBLK")) {
+    codegenBlk(builder, tree.children[0]);
+  }
 }
 
 LLVMTypeRef codegenParam(struct Node tree) {
@@ -115,11 +123,12 @@ LLVMValueRef codegenFunc(LLVMModuleRef module, LLVMBuilderRef builder, struct No
   LLVMValueRef out = LLVMAddFunction(module, name, LLVMFunctionType(type, params.args, params.argCount, 0));
   LLVMSetLinkage(out, LLVMExternalLinkage);
   for (int i = 0; i < params.argCount; i++) {
+    printf("%s\n", params.names[i]);
     LLVMSetValueName2(LLVMGetParam(out, i), params.names[i], strlen(params.names[i]));
-    printf("%d\n", strlen(params.names[i]));
   }
   pushFunc((struct Func) {params.argCount, params.names, "Int", name});
   LLVMBasicBlockRef entry = LLVMAppendBasicBlock(out, "entry");
+  LLVMPositionBuilderAtEnd(builder, entry);
   return out;
 }
 
@@ -136,5 +145,5 @@ void codegen(struct Node tree) {
   currentScope = malloc(scopeCount * sizeof(struct Scope));
   currentScope[scopeCount - 1] = (struct Scope){"", 0, NULL, 0, NULL, 0, NULL};
   LLVMModuleRef module = codegenTLD(tree);
-  printf("\n%s\n", LLVMPrintModuleToString(module));
+  printf("%s\n", LLVMPrintModuleToString(module));
 }
