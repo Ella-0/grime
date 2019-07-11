@@ -60,18 +60,19 @@ extern int yydebug;
     TSUB = 265,
     TMUL = 266,
     TDIV = 267,
-    TLPA = 268,
-    TRPA = 269,
-    TLBR = 270,
-    TRBR = 271,
-    TLBA = 272,
-    TRBA = 273,
-    TARR = 274,
-    TCLN = 275,
-    TSMI = 276,
-    TCOM = 277,
-    TID = 278,
-    TINT = 279
+    TASS = 268,
+    TLPA = 269,
+    TRPA = 270,
+    TLBR = 271,
+    TRBR = 272,
+    TLBA = 273,
+    TRBA = 274,
+    TARR = 275,
+    TCLN = 276,
+    TSMI = 277,
+    TCOM = 278,
+    TID = 279,
+    TINT = 280
   };
 #endif
 
@@ -80,13 +81,13 @@ extern int yydebug;
 
 union YYSTYPE
 {
-#line 8 "parser.y" /* yacc.c:1921  */
+#line 9 "parser.y" /* yacc.c:1921  */
 
   struct Node node;
   int token;
   char *string;
 
-#line 90 "parser.tab.h" /* yacc.c:1921  */
+#line 91 "parser.tab.h" /* yacc.c:1921  */
 };
 
 typedef union YYSTYPE YYSTYPE;

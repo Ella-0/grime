@@ -1,5 +1,6 @@
 %{
   #include <stdio.h>
+  #include <stdlib.h>
   void yyerror(char *s);
   int yylex();
   #include "node.h"
@@ -13,15 +14,16 @@
 %start tld
 %token END 0
 %token TFUNC "func" TRETURN "return" TWHILE "while" TIF "if" TVAR "var" TVAL "val"
-%token TADD "+" TSUB "-" TMUL "*" TDIV "/"
+%token TADD "+" TSUB "-" TMUL "*" TDIV "/" TASS "="
 %token TLPA "(" TRPA ")" TLBR "{" TRBR "}" TLBA "[" TRBA "]"
 %token TARR "->" TCLN ":" TSMI
 %token TCOM ","
 %token TID TINT
-%type <string> TID
+%type <string> TID TINT
 %type <node> identifier functions function params type vardecl valdecl
 %type <node> arraytype simpletype param ifexpr whileexpr expr blk blkparts operatorexpr
-%right "if" "while"
+%type <node> returnexpr
+%right "if" "while" "return"
 %right "=" "val" "var"
 %left "+"
 %left "*"
@@ -72,15 +74,20 @@ whileexpr: "while" "(" expr ")" expr {$$ = createNode("NWHILEEXPR", 2, (struct N
 
 vardecl: "var" identifier ":" type "=" expr {$$ = createNode("NVAREXPR", 3, (struct Node []) {$2, $4, $6});} %prec "var"
   ;
+
 valdecl: "val" identifier ":" type "=" expr {$$ = createNode("NVALEXPR", 2, (struct Node []) {$2, $4, $6});} %prec "val"
   ;
 
-operatorexpr: TINT {$$ = createNode("NINTEGER", 0, NULL);} %prec "*"
+returnexpr: "return" expr {$$ = createNode("NRETURNEXPR", 1, (struct Node []) {$2});}
+  ;
+
+operatorexpr: TINT {$$ = createNode("NINTEGER", 1, (struct Node []) {createNode($1, 0, NULL)});} %prec "*"
   | expr "+" expr {$$ = createNode("NADDEXPR", 2, (struct Node []) {$1, $3});} %prec "+"
   | expr "*" expr {$$ = createNode("NMULEXPR", 2, (struct Node []) {$1, $3});} %prec "*"
   ;
 
 expr: blk {$$ = createNode("NEXPR", 1, (struct Node []) {$1});}
+  | returnexpr {$$ = createNode("NEXPR", 1, (struct Node []) {$1});}
   | ifexpr {$$ = createNode("NEXPR", 1, (struct Node []) {$1});}
   | whileexpr {$$ = createNode("NEXPR", 0, NULL);}
   | vardecl {$$ = createNode("NEXPR", 0, NULL);}
@@ -89,4 +96,4 @@ expr: blk {$$ = createNode("NEXPR", 1, (struct Node []) {$1});}
   ;
 %%
 
-void yyerror(char *s) {printf("error : %s\n", s);}
+void yyerror(char *s) {printf("error : %s\n", s); exit(-1);}

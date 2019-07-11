@@ -72,13 +72,52 @@ LLVMTypeRef codegenType() {
   return LLVMIntType(32);
 }
 
-LLVMValueRef codegenBlk(LLVMBuilderRef builder, struct Node tree) {
+LLVMValueRef codegenExpr(LLVMBuilderRef builder, struct Node tree);
 
+LLVMValueRef codegenBlkParts(LLVMBuilderRef builder, struct Node tree) {
+  if (tree.childCount == 2) {
+    codegenBlkParts(builder, tree.children[0]);
+    return codegenExpr(builder, tree.children[1]);
+  } else if (tree.childCount == 1) {
+    return codegenExpr(builder, tree.children[0]);
+  } else {
+
+  }
+}
+
+LLVMValueRef codegenBlk(LLVMBuilderRef builder, struct Node tree) {
+  return codegenBlkParts(builder, tree.children[0]);
+}
+
+LLVMValueRef codegenAddExpr(LLVMBuilderRef builder, struct Node tree) {
+  LLVMValueRef lhs = codegenExpr(builder, tree.children[0]);
+  LLVMValueRef rhs = codegenExpr(builder, tree.children[1]);
+  return LLVMBuildAdd(builder, lhs, rhs, "tmp");
+}
+
+LLVMValueRef codegenInteger(LLVMBuilderRef builder, struct Node tree) {
+  return LLVMConstInt(LLVMIntType(32), 10, 1);
+}
+
+LLVMValueRef codegenVarDecl(LLVMBuilderRef builder, struct Node tree) {
+
+}
+
+LLVMValueRef codegenReturn(LLVMBuilderRef builder, struct Node tree) {
+  return LLVMBuildRet(builder, codegenExpr(builder, tree.children[0]));
 }
 
 LLVMValueRef codegenExpr(LLVMBuilderRef builder, struct Node tree) {
   if (!strcmp(tree.children[0].data, "NBLK")) {
-    codegenBlk(builder, tree.children[0]);
+    return codegenBlk(builder, tree.children[0]);
+  } else if (!strcmp(tree.children[0].data, "NADDEXPR")) {
+    return codegenAddExpr(builder, tree.children[0]);
+  } else if (!strcmp(tree.children[0].data, "NINTEGER")) {
+    return codegenInteger(builder, tree.children[0]);
+  } else if (!strcmp(tree.children[0].data, "NVALEXPR")) {
+
+  } else if (!strcmp(tree.children[0].data, "NRETURNEXPR")) {
+    return codegenReturn(builder, tree.children[0]);
   }
 }
 
@@ -123,12 +162,12 @@ LLVMValueRef codegenFunc(LLVMModuleRef module, LLVMBuilderRef builder, struct No
   LLVMValueRef out = LLVMAddFunction(module, name, LLVMFunctionType(type, params.args, params.argCount, 0));
   LLVMSetLinkage(out, LLVMExternalLinkage);
   for (int i = 0; i < params.argCount; i++) {
-    printf("%s\n", params.names[i]);
     LLVMSetValueName2(LLVMGetParam(out, i), params.names[i], strlen(params.names[i]));
   }
   pushFunc((struct Func) {params.argCount, params.names, "Int", name});
   LLVMBasicBlockRef entry = LLVMAppendBasicBlock(out, "entry");
   LLVMPositionBuilderAtEnd(builder, entry);
+  codegenExpr(builder, tree.children[3]);
   return out;
 }
 
@@ -136,7 +175,7 @@ LLVMModuleRef codegenTLD(struct Node tree) {
   LLVMModuleRef module = LLVMModuleCreateWithName("grime");
   LLVMBuilderRef builder = LLVMCreateBuilder();
   codegenFunc(module, builder, tree.children[0].children[0]);
-  LLVMDisposeBuilder(builder);
+  //LLVMDisposeBuilder(builder);
   return module;
 }
 

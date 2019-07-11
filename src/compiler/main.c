@@ -5,7 +5,7 @@
 
 int main(int argc, char const *argv[]) {
   yyparse();
-  printNode(tld);
+  //printNode(tld);
   codegen(tld);
   return 0;
 }
