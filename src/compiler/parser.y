@@ -22,7 +22,7 @@
 %type <string> TID TINT
 %type <node> identifier functions function params type vardecl valdecl
 %type <node> arraytype simpletype param ifexpr whileexpr expr blk blkparts operatorexpr
-%type <node> returnexpr
+%type <node> returnexpr idexpr
 %right "if" "while" "return"
 %right "=" "val" "var"
 %left "+"
@@ -72,27 +72,31 @@ ifexpr: "if" "(" expr ")" expr {$$ = createNode("NIFEXPR", 2, (struct Node []) {
 whileexpr: "while" "(" expr ")" expr {$$ = createNode("NWHILEEXPR", 2, (struct Node []) {$3, $5});} %prec "while"
   ;
 
-vardecl: "var" identifier ":" type "=" expr {$$ = createNode("NVAREXPR", 3, (struct Node []) {$2, $4, $6});} %prec "var"
+vardecl: "var" identifier ":" type {$$ = createNode("NVAREXPR", 2, (struct Node []) {$2, $4});} %prec "var"
   ;
 
-valdecl: "val" identifier ":" type "=" expr {$$ = createNode("NVALEXPR", 2, (struct Node []) {$2, $4, $6});} %prec "val"
+valdecl: "val" identifier ":" type "=" expr {$$ = createNode("NVALEXPR", 3, (struct Node []) {$2, $4, $6});} %prec "val"
   ;
 
 returnexpr: "return" expr {$$ = createNode("NRETURNEXPR", 1, (struct Node []) {$2});}
   ;
 
-operatorexpr: TINT {$$ = createNode("NINTEGER", 1, (struct Node []) {createNode($1, 0, NULL)});} %prec "*"
+operatorexpr: identifier "=" expr {$$ = createNode("NASSEXPR", 2, (struct Node []) {$1, $3});} %prec "="
   | expr "+" expr {$$ = createNode("NADDEXPR", 2, (struct Node []) {$1, $3});} %prec "+"
   | expr "*" expr {$$ = createNode("NMULEXPR", 2, (struct Node []) {$1, $3});} %prec "*"
+  | TINT {$$ = createNode("NINTEGER", 1, (struct Node []) {createNode($1, 0, NULL)});} %prec "*"
   ;
+
+idexpr: identifier {$$ = createNode("NIDEXPR", 1, (struct Node []) {$1});};
 
 expr: blk {$$ = createNode("NEXPR", 1, (struct Node []) {$1});}
   | returnexpr {$$ = createNode("NEXPR", 1, (struct Node []) {$1});}
   | ifexpr {$$ = createNode("NEXPR", 1, (struct Node []) {$1});}
   | whileexpr {$$ = createNode("NEXPR", 0, NULL);}
-  | vardecl {$$ = createNode("NEXPR", 0, NULL);}
-  | valdecl {$$ = createNode("NEXPR", 0, NULL);}
+  | vardecl {$$ = createNode("NEXPR", 1, (struct Node []) {$1});}
+  | valdecl {$$ = createNode("NEXPR", 1, (struct Node []) {$1});}
   | operatorexpr {$$ = createNode("NEXPR", 1, (struct Node []) {$1});}
+  | idexpr {$$ = createNode("NEXPR", 1, (struct Node []) {$1});}
   ;
 %%
 

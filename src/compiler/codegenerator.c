@@ -17,6 +17,7 @@ struct Type {
 struct Var {
   char *typeName;
   char *name;
+  LLVMValueRef llvmVal;
 };
 
 struct Func {
@@ -54,6 +55,16 @@ void pushVar(struct Var var) {
   currentScope[scopeCount - 1].varCount++;
   currentScope[scopeCount - 1].vars = realloc(currentScope[scopeCount - 1].vars, currentScope[scopeCount - 1].varCount * sizeof(struct Var));
   currentScope[scopeCount - 1].vars[currentScope[scopeCount - 1].varCount - 1] = var;
+}
+
+struct Var getVarFromName(const char *name) {
+  for (int i = 0; i < currentScope[scopeCount - 1].varCount; i++) {
+    if (!strcmp(name, currentScope[scopeCount - 1].vars[i].name)) {
+      return currentScope[scopeCount - 1].vars[i];
+    }
+  }
+  printf("Error: var %s is not defined\n", name);
+  exit(-1);
 }
 
 void pushFunc(struct Func func) {
@@ -95,16 +106,35 @@ LLVMValueRef codegenAddExpr(LLVMBuilderRef builder, struct Node tree) {
   return LLVMBuildAdd(builder, lhs, rhs, "tmp");
 }
 
+LLVMValueRef codegenMulExpr(LLVMBuilderRef builder, struct Node tree) {
+  LLVMValueRef lhs = codegenExpr(builder, tree.children[0]);
+  LLVMValueRef rhs = codegenExpr(builder, tree.children[1]);
+  return LLVMBuildMul(builder, lhs, rhs, "tmp");
+}
+
 LLVMValueRef codegenInteger(LLVMBuilderRef builder, struct Node tree) {
-  return LLVMConstInt(LLVMIntType(32), 10, 1);
+  return LLVMConstInt(LLVMIntType(32), strtol(tree.children[0].data, NULL, 10), 1);
 }
 
 LLVMValueRef codegenVarDecl(LLVMBuilderRef builder, struct Node tree) {
-
+  struct Var var;
+  var.typeName = tree.children[1].data;
+  var.name = tree.children[0].data;
+  var.llvmVal = LLVMBuildAlloca(builder, LLVMIntType(32), tree.children[0].data);
+  pushVar(var);
+  return var.llvmVal;
 }
 
 LLVMValueRef codegenReturn(LLVMBuilderRef builder, struct Node tree) {
   return LLVMBuildRet(builder, codegenExpr(builder, tree.children[0]));
+}
+
+LLVMValueRef codegenAssign(LLVMBuilderRef builder, struct Node tree) {
+  return LLVMBuildStore(builder, codegenExpr(builder, tree.children[1]), getVarFromName(tree.children[0].data).llvmVal);
+}
+
+LLVMValueRef codegenIdExpr(LLVMBuilderRef builder, struct Node tree) {
+  return LLVMBuildLoad(builder, getVarFromName(tree.children[0].data).llvmVal, "tmp");
 }
 
 LLVMValueRef codegenExpr(LLVMBuilderRef builder, struct Node tree) {
@@ -112,12 +142,20 @@ LLVMValueRef codegenExpr(LLVMBuilderRef builder, struct Node tree) {
     return codegenBlk(builder, tree.children[0]);
   } else if (!strcmp(tree.children[0].data, "NADDEXPR")) {
     return codegenAddExpr(builder, tree.children[0]);
+  } else if (!strcmp(tree.children[0].data, "NMULEXPR")) {
+    return codegenMulExpr(builder, tree.children[0]);
   } else if (!strcmp(tree.children[0].data, "NINTEGER")) {
     return codegenInteger(builder, tree.children[0]);
   } else if (!strcmp(tree.children[0].data, "NVALEXPR")) {
-
+    LLVMValueRef ref = codegenVarDecl(builder, tree.children[0]);
+    LLVMBuildStore(builder, codegenExpr(builder, tree.children[0].children[2]), ref);
+    return ref;
   } else if (!strcmp(tree.children[0].data, "NRETURNEXPR")) {
     return codegenReturn(builder, tree.children[0]);
+  } else if (!strcmp(tree.children[0].data, "NIDEXPR")) {
+    return codegenIdExpr(builder, tree.children[0]);
+  } else if (!strcmp(tree.children[0].data, "NASSEXPR")) {
+    return codegenAssign(builder, tree.children[0]);
   }
 }
 

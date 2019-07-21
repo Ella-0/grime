@@ -1,3 +1,5 @@
 func main(args: [String]) -> Int {
-	return 10 + 10
+	val xyz : Int = 5
+	xyz = 6 + xyz
+	return xyz
 }
