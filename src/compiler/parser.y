@@ -18,8 +18,8 @@
 %token TLPA "(" TRPA ")" TLBR "{" TRBR "}" TLBA "[" TRBA "]"
 %token TARR "->" TCLN ":" TSMI
 %token TCOM ","
-%token TID TINT
-%type <string> TID TINT
+%token TID TINT TLONG
+%type <string> TID TINT TLONG
 %type <node> identifier functions function params type vardecl valdecl
 %type <node> arraytype simpletype param ifexpr whileexpr expr blk blkparts operatorexpr
 %type <node> returnexpr idexpr
@@ -85,6 +85,7 @@ operatorexpr: identifier "=" expr {$$ = createNode("NASSEXPR", 2, (struct Node [
   | expr "+" expr {$$ = createNode("NADDEXPR", 2, (struct Node []) {$1, $3});} %prec "+"
   | expr "*" expr {$$ = createNode("NMULEXPR", 2, (struct Node []) {$1, $3});} %prec "*"
   | TINT {$$ = createNode("NINTEGER", 1, (struct Node []) {createNode($1, 0, NULL)});} %prec "*"
+  | TLONG {$$ = createNode("NLONG", 1, (struct Node []) {createNode($1, 0, NULL)});} %prec "*"
   ;
 
 idexpr: identifier {$$ = createNode("NIDEXPR", 1, (struct Node []) {$1});};

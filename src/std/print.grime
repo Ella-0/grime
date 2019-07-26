@@ -1,9 +1,0 @@
-extern func printf(format: String, data: Void...)
-
-func print(data: String) {
-  printf(data)
-}
-
-func println(data: String) {
-  printf("%s\n", data)
-}

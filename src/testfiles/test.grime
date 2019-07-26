@@ -1,5 +1,5 @@
-func main(args: [String]) -> Int {
-	val xyz : Int = 5
-	xyz = 6 + xyz
-	return xyz
+func main(a : Int) -> Int {
+	val x : Int = 10
+	val y : Int = 10
+	return 1 + x * y
 }

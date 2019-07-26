@@ -40,6 +40,7 @@
 
 ## Examples
 ### Functions
+
 `func main() -> Int`
 `func g_main_() -> Int`
 

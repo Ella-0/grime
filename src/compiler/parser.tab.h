@@ -72,7 +72,8 @@ extern int yydebug;
     TSMI = 277,
     TCOM = 278,
     TID = 279,
-    TINT = 280
+    TINT = 280,
+    TLONG = 281
   };
 #endif
 
@@ -87,7 +88,7 @@ union YYSTYPE
   int token;
   char *string;
 
-#line 91 "parser.tab.h" /* yacc.c:1921  */
+#line 92 "parser.tab.h" /* yacc.c:1921  */
 };
 
 typedef union YYSTYPE YYSTYPE;
