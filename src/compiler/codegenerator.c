@@ -272,8 +272,13 @@ LLVMModuleRef codegenTLD(struct Node tree) {
 void codegen(struct Node tree) {
   scopeCount = 1;
   currentScope = malloc(scopeCount * sizeof(struct Scope));
-  currentScope[scopeCount - 1] = (struct Scope){"", 0, NULL, 0, NULL, 0, NULL};
+  currentScope[scopeCount - 1] = (struct Scope){"TLD", 0, NULL, 0, NULL, 0, NULL};
 
+  struct Type voidType;
+  voidType.typeName = "Void";
+  voidType.mangledName = "v";
+  voidType.llvmType = LLVMVoidType();
+  
   struct Type boolType;
   boolType.typeName = "Bool";
   boolType.mangledName = "o";
@@ -302,8 +307,9 @@ void codegen(struct Node tree) {
   struct Type charType;
   charType.typeName = "Char";
   charType.mangledName = "c";
-  longType.llvmType = LLVMIntType(8);
+  charType.llvmType = LLVMIntType(8);
 
+  pushType(voidType);
   pushType(boolType);
   pushType(byteType);
   pushType(shortType);

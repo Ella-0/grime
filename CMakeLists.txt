@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 2.8.12)
-project(grimec)
+project(grime)
 
 set(CMAKE_C_STANDARD 11)
 
@@ -19,3 +19,5 @@ add_executable(grimec ${HEADERS} ${SOURCE})
 llvm_map_components_to_libnames(LLVM_LIBS core mcjit x86codegen)
 
 target_link_libraries(grimec ${LLVM_LIBS})
+
+install(TARGETS grimec)

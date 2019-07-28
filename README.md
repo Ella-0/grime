@@ -1,35 +1,47 @@
-# grime
+# Grime
 
 Repository for the grime compiler and standard libraries.
 
-## building
+## Building
 
-### dependencies
+### Dependencies
 
 #### Ubuntu
 
-`sudo apt-get install cmake llvm git gcc`
+`$ sudo apt-get install cmake llvm git gcc`
 
 #### Arch
 
-`sudo pacman -S cmake llvm git gcc`
+`$ sudo pacman -S cmake llvm git gcc`
 
-### setup
-
-```
-git clone https://github.com/Edward-0/grime.git
-cd grime
-mkdir build
-```
-
-### make
+### Setup
 
 ```
-cd build
-cmake ..
-make
+$ git clone https://github.com/Edward-0/grime.git
+$ cd grime
+$ mkdir build
 ```
 
-### install
+### Make
 
-`sudo make install`
+```
+$ cd build
+$ cmake ..
+$ make
+```
+
+### Install
+
+`$ sudo make install`
+
+## Using the Compliler
+
+### Grime to LLVM-IR
+`$ cat path/to/your/file.grime | grimec > path/to/your/file.ll`
+
+### LLVM-IR to AT&T Assembly
+
+llc path/to/your/file.ll
+
+### AT&T Assembly to ELF
+gcc -o path/to/your/file path/to/your/file.s

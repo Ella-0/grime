@@ -3,11 +3,11 @@
 
 ### primatives
 
-`Bool` - `o`
+`Bool` - `g_object_xyz_grimelang_core_Bool`
 
-`Byte` - `b`
-`Short` - `s`
-`Int` - `i`
+`Byte` - `g_object_xyz_grimelang_core_Byte`
+`Short` - `g_object_xyz_grimelang_core_Short`
+`Int` - `g_object_xyz_grimelang_core_Int`
 `Long` - `l`
 
 `UByte` - `ub`
@@ -33,6 +33,10 @@
 ### Function pointer
 
 `(Byte, Short, Int, Long) -> Bool` - `f4_o_b_s_i_l`
+
+### Objects & Skeletons
+
+`com.example.Test` - `os_com.example.Test`
 
 ### Undescore
 
