@@ -1,6 +1,6 @@
 # Grime
 
-Repository for the grime compiler and standard libraries.
+Repository for the grime language specification, compiler and standard libraries.
 
 ## Building
 
