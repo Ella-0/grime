@@ -41,7 +41,7 @@ $ make
 
 ### LLVM-IR to AT&T Assembly
 
-llc path/to/your/file.ll
+`$ llc path/to/your/file.ll`
 
 ### AT&T Assembly to ELF
-gcc -o path/to/your/file path/to/your/file.s
+`$ gcc -o path/to/your/file path/to/your/file.s`
