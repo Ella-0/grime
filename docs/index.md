@@ -16,6 +16,6 @@ module com.example.helloworld {
 
 ## Documentation
 
-* [Syntax](https://edward-0.github.com/grime/syntax)
-* [Coding Standards](https://edward-0.github.com/grime/codingStandards)
-* [Everything Is An Expression](https://edward-0.github.com/grime/everythingIsAnExpr)
+* [Syntax](https://edward-0.github.io/grime/syntax)
+* [Coding Standards](https://edward-0.github.io/grime/codingStandards)
+* [Everything Is An Expression](https://edward-0.github.io/grime/everythingIsAnExpr)
