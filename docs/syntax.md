@@ -48,23 +48,155 @@ func main(argc: Int, argv: [String]) -> Int {
 
 #### Strings
 
-`[Char]` - defines a string  
-`String` - defines a string  
+`"This is a string!"` - defines a string  
 
-##### How the `String` type is defined
+## Functions
 
-`type String : [Char]`
+### Defining Functions
 
-### Defining new Types
-
-You can define types using type definitions. these are declared using the following syntax.
-
+#### Return Void
 ```
-type Vector3<T> : (x: T, y: T, z: T)
-```
-### Adding functions to new types
-```
-func Vector3<Float>.add(right: Vector3f<Float>) -> Vector3<Float> {
-	return Vector3<Float>(this.x + right.x, this.y + right.y, this.z + right.z)
+func name(paramName: ParamType) {
+	return
 }
 ```
+
+#### Return Other Types
+```
+func name(paramName: ParamType) -> ReturnType {
+
+}
+```
+
+## Expressions
+
+### Varibles and Values
+
+`val x: Int = 0` Immutable value
+`var y: Int = 0` Mutable value
+
+### Selection
+```
+if (x < 10) {
+	println("if")
+} elif {
+	println("elif")
+} else {
+	println("else")
+}
+```
+
+```
+if (x < 10) -> Int {
+	return x + 1
+} elif (x < 0) {
+	return 0
+} else {
+	return x - 1
+}
+```
+
+### Iteration
+```
+for (i in [0, 1, 2, 3]) {
+	println(i)
+}
+```
+
+```
+val x: [Int] = for (i: Int in [0, 1, 2, 3]) -> Int {
+	return i + 1
+}
+```
+
+```
+val x: Int = 10
+while (x > 0) {
+	x--;
+}
+```
+
+```
+val x = 10
+
+val y: [Int] = while (x > 0) -> Int {
+	x--;
+	return x * 2;
+}
+```
+
+## Tuples
+
+### Named Tuples
+
+`(x: Float, y: Int)`
+
+#### Accessing Elements
+
+```
+val a: (x: Float, y: Int) = (1.0f, 10)
+
+println(a.x)
+println(a.y)
+```
+
+### Unnamed Tuples
+
+`(Float, Int)`
+
+#### Accessing Elements
+
+```
+val a: (Float, Int) = (1.0f, 10)
+
+println(a.0)
+println(a.1)
+```
+
+
+## Mutable Variables
+
+```
+var a: Int = 10
+a = 11
+```
+
+This compiles because the value of `a` can change.
+
+```
+val a: Int = 10
+a = 11
+```
+
+This will give a compile error because the value of `a` can't change.
+
+```
+var a: (Int, Float) = (10, 10.0f)
+a.0 = 9
+```
+
+This does not compile because you can't change the elements of a tuple or array even if the variable is mutable. This also applies for object fields.
+
+```
+var a: (Int, Float) = (10, 10.0f)
+a = (9, a.2)
+```
+
+This does compile.
+
+
+## Skeletons & Objects
+
+In grime skeletons define a new type. They provide a list of fields and methods for the user to call. Objects are implementations of skeletons. They provide a constructor and a destructor and implement all of the unimplemented methods and fields of the skeleton. You can not use Objects as a Type.
+
+```
+
+skeleton Animal {
+	public val name: String
+
+
+}
+
+object Cat : Animal {
+	override val food =
+}

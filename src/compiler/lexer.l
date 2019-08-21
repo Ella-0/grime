@@ -25,6 +25,7 @@
 "*" {return TMUL;};
 "," {return TCOM;};
 "=" {return TASS;};
+(\')(.)(\') {sprintf(yylval.string, "'%c'", yytext[1]); return TCHAR;};
 [+-]?[0-9]+L {yylval.string = malloc(yyleng * sizeof(char)); strcpy(yylval.string, yytext); return TLONG;};
 [+-]?[0-9]+ {yylval.string = malloc(yyleng * sizeof(char)); strcpy(yylval.string, yytext); return TINT;};
 [a-zA-Z]+ {yylval.string = malloc(yyleng * sizeof(char)); strcpy(yylval.string, yytext); return TID;};

@@ -11,10 +11,10 @@ message(STATUS "Using LLVMConfig.cmake in: ${LLVM_DIR}")
 include_directories(${LLVM_INCLUDE_DIRS})
 add_definitions(${LLVM_DEFINITIONS})
 
-file(GLOB_RECURSE HEADERS ${PROJECT_SOURCE_DIR}/src/*.h)
-file(GLOB_RECURSE SOURCE ${PROJECT_SOURCE_DIR}/src/*.c)
+file(GLOB_RECURSE COMPILER_HEADERS ${PROJECT_SOURCE_DIR}/src/compiler/*.h)
+file(GLOB_RECURSE COMPILER_SOURCE ${PROJECT_SOURCE_DIR}/src/compiler/*.c)
 
-add_executable(grimec ${HEADERS} ${SOURCE})
+add_executable(grimec ${COMPILER_HEADERS} ${COMPILER_SOURCE})
 
 llvm_map_components_to_libnames(LLVM_LIBS core mcjit x86codegen)
 

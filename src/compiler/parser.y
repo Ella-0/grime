@@ -18,15 +18,16 @@
 %token TLPA "(" TRPA ")" TLBR "{" TRBR "}" TLBA "[" TRBA "]"
 %token TARR "->" TCLN ":" TSMI
 %token TCOM ","
-%token TID TINT TLONG
-%type <string> TID TINT TLONG
+%token TID TINT TLONG TCHAR
+%type <string> TID TINT TLONG TCHAR
 %type <node> identifier functions function params type vardecl valdecl
 %type <node> arraytype simpletype param ifexpr whileexpr expr blk blkparts operatorexpr
-%type <node> returnexpr idexpr
+%type <node> returnexpr idexpr funccallexpr
 %right "if" "while" "return"
 %right "=" "val" "var"
 %left "+"
 %left "*"
+%left "funccall"
 %left TINT
 %%
 
@@ -40,6 +41,7 @@ functions: function {$$ = createNode("NFUNCTIONS", 1, (struct Node []) {$1});}
   ;
 
 function: "func" identifier "(" params ")" "->" type expr {$$ = createNode("NFUNCTION", 4, (struct Node []) {$2, $4, $7, $8});}
+  | "func" identifier "(" ")" "->" type expr {$$ = createNode("NFUNCTION", 4, (struct Node []) {$2, createNode("NPARAMS", 0, NULL), $6, $7});}
   ;
 
 params: param "," params {$$ = createNode("NPARAMS", 2, (struct Node []) {$1, $3});}
@@ -72,7 +74,7 @@ ifexpr: "if" "(" expr ")" expr {$$ = createNode("NIFEXPR", 2, (struct Node []) {
 whileexpr: "while" "(" expr ")" expr {$$ = createNode("NWHILEEXPR", 2, (struct Node []) {$3, $5});} %prec "while"
   ;
 
-vardecl: "var" identifier ":" type {$$ = createNode("NVAREXPR", 2, (struct Node []) {$2, $4});} %prec "var"
+vardecl: "var" identifier ":" type "=" expr {$$ = createNode("NVAREXPR", 3, (struct Node []) {$2, $4, $6});} %prec "var"
   ;
 
 valdecl: "val" identifier ":" type "=" expr {$$ = createNode("NVALEXPR", 3, (struct Node []) {$2, $4, $6});} %prec "val"
@@ -81,11 +83,15 @@ valdecl: "val" identifier ":" type "=" expr {$$ = createNode("NVALEXPR", 3, (str
 returnexpr: "return" expr {$$ = createNode("NRETURNEXPR", 1, (struct Node []) {$2});}
   ;
 
+funccallexpr: identifier "(" ")" {$$ = createNode("NFUNCCALLEXPR", 1, (struct Node []) {$1});} %prec "func"
+  ;
+
 operatorexpr: identifier "=" expr {$$ = createNode("NASSEXPR", 2, (struct Node []) {$1, $3});} %prec "="
   | expr "+" expr {$$ = createNode("NADDEXPR", 2, (struct Node []) {$1, $3});} %prec "+"
   | expr "*" expr {$$ = createNode("NMULEXPR", 2, (struct Node []) {$1, $3});} %prec "*"
   | TINT {$$ = createNode("NINTEGER", 1, (struct Node []) {createNode($1, 0, NULL)});} %prec "*"
   | TLONG {$$ = createNode("NLONG", 1, (struct Node []) {createNode($1, 0, NULL)});} %prec "*"
+  | TCHAR {$$ = createNode("NCHAR", 1, (struct Node []) {createNode($1, 0, NULL)});} %prec "*"
   ;
 
 idexpr: identifier {$$ = createNode("NIDEXPR", 1, (struct Node []) {$1});};
@@ -97,6 +103,7 @@ expr: blk {$$ = createNode("NEXPR", 1, (struct Node []) {$1});}
   | vardecl {$$ = createNode("NEXPR", 1, (struct Node []) {$1});}
   | valdecl {$$ = createNode("NEXPR", 1, (struct Node []) {$1});}
   | operatorexpr {$$ = createNode("NEXPR", 1, (struct Node []) {$1});}
+  | funccallexpr {$$ = createNode("NEXPR", 1, (struct Node []) {$1});}
   | idexpr {$$ = createNode("NEXPR", 1, (struct Node []) {$1});}
   ;
 %%

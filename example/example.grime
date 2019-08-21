@@ -1,6 +1,14 @@
-import file
+import xyz.grime.core
+import xyz.grime.io
+import xyz.grime.native
 
-func main() -> Int {
-  val x: Double = 1.0
-  return 0
+module xyz.grime.io {
+
+}
+
+module xyz.grime.example {
+
+  func main(args: [String]) -> Int {
+    //main function
+  }
 }

@@ -1,4 +1,7 @@
 # Name Mangling
+
+This document describes how an implementation of the gime language should perform name mangling.
+
 ## Types
 
 ### primatives
@@ -8,54 +11,43 @@
 `Byte` - `g_object_xyz_grimelang_core_Byte`
 `Short` - `g_object_xyz_grimelang_core_Short`
 `Int` - `g_object_xyz_grimelang_core_Int`
-`Long` - `l`
+`Long` - `g_object_xyz_grimelang_core_Long`
 
-`UByte` - `ub`
-`UShort` - `us`
-`UInt` - `ui`
-`ULong` - `ul`
+`UByte` - `g_object_xyz_grimelang_core_UByte`
+`UShort` - `g_object_xyz_grimelang_core_UShort`
+`UInt` - `g_object_xyz_grimelang_core_UInt`
+`ULong` - `g_object_xyz_grimelang_core_ULong`
 
-`Half` - `h`
-`Float` - `f`
-`Double` - `d`
+`Half` - `g_object_xyz_grimelang_core_Half`
+`Float` - `g_object_xyz_grimelang_core_Float`
+`Double` - `g_object_xyz_grimelang_core_Double`
 
-`Char` - `c`
+`Char` - `g_object_xyz_grimelang_core_Char`
 
-### Arrays
+### Lists
 
-`[Int]` - `pi`
-`[Int; 8]` - `pi8`
+`[Int]` - `g_skeleton_xyz_grimelang_core_List_g_object_xyz_grimelang_core_Int`
+`[Char]` - `g_skeleton_xyz_grimelang_core_List_g_object_xyz_grimelang_core_Char`
 
 ### Tuples
 
-`(Byte, Short, Int, Long)` - `t4_b_s_i_l`
+`(Byte, Short, Int, Long)` - `t4_g_object_xyz_grimelang_core_Byte_g_object_xyz_grimelang_core_Short_g_object_xyz_grimelang_core_Int_g_object_xyz_grimelang_core_Long`
 
 ### Function pointer
 
-`(Byte, Short, Int, Long) -> Bool` - `f4_o_b_s_i_l`
+`(T, U, V, W) -> X` - `f4_X_T_U_V_W`
+
+`(Byte, Short, Int, Long) -> Bool` - `f4_g_skeleton_xyz_grimelang_core_Byte`
 
 ### Objects & Skeletons
 
-`com.example.Test` - `os_com.example.Test`
+`com.example.animals.Animal` - `g_skeleton_xyz_com_example_animals_Animal`
+`com.example.animals.Cat` - `g_object_com_example_animals_Cat`
 
 ### Undescore
 
 `_` - `__`
 
-## Examples
-### Functions
+### functions
 
-`func main() -> Int`
-`func g_main_() -> Int`
-
-`func add(a: Int, b: Int) -> Int`
-`func g_add_i_i_i_(a: Int, b: Int) -> Int`
-
-`func add(a: [Int], b: [Int]) -> [Int]`
-`func g_add_pi_pi_pi_(a: [Int], b: [Int]) -> [Int]`
-
-`func a(a: (x: String, y: String)) -> [Int]`
-`func g_a_pi_t2_pc_pc_`
-
-`func sort([Int], fun: (Int) -> Byte) -> [Int]`
-`func g_sort_pi_pi_f1_b_i_([Int], fun: (Int) -> Byte) -> [Int]`
+`func main(args: [String]) -> Int` - `g_main_g_object_xyz_grimelang_core_Int_g_skeleton_xyz_grimelang_core_List_xyz`

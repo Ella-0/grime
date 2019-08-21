@@ -1,4 +1,4 @@
-func main(a : Int) -> Void {
-	val x : Long = 10L
-	val y : Long = 10L
+func main() -> Int {
+	val x: Char = 'a'
+	return 10	
 }
