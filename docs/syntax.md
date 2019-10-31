@@ -1,8 +1,8 @@
 # Grime Hello World
 ```
-func main(argc: Int, argv: [String]) -> Int {
+func main(argc: Int, argv: [String]) -> (exit: Int) {
 	println("HelloWorld!")
-	return 0
+	exit = 0
 }
 ```
 
