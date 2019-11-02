@@ -200,3 +200,4 @@ skeleton Animal {
 object Cat : Animal {
 	override val food =
 }
+```
