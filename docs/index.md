@@ -3,14 +3,12 @@
 ## Hello World
 
 ```
-import xyz.grimelang.core
-import xyz.grimelang.io
+use xyz.grime.core
+use xyz.grime.io
 
-module com.example.helloworld {
-  func main(args: [String]) -> Int {
-    println("Hello, World!")
-    return 0
-  }
+func main(args: [String]) -> Int {
+	println("Hello, World!");
+	return 0;
 }
 ```
 
